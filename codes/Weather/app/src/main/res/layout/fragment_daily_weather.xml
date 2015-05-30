@@ -1,0 +1,39 @@
+<!-- 底部1天 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    android:gravity="center"
+    >
+    <TextView
+        android:id="@+id/daily_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="今天"
+        android:textSize="@dimen/weather_middle"
+        />
+    <ImageView
+        android:id="@+id/daily_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sun"
+        />
+    <TextView
+        android:id="@+id/daily_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18-30 C"
+        android:textSize="@dimen/weather_middle"
+        />
+    <TextView
+        android:id="@+id/daily_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="多云"
+        android:textSize="@dimen/weather_middle"
+        />
+</LinearLayout>
+    <!-- 底部1天 END -->

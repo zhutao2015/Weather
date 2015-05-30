@@ -1,11 +1,99 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityFragment">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="@dimen/main_header_button"
+            android:layout_height="@dimen/main_header_button"
+            android:background="@drawable/add"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/cityname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/placeholder"
+            android:textSize="@dimen/main_header_font"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/button_refresh"
+            android:layout_width="@dimen/main_header_button"
+            android:layout_height="@dimen/main_header_button"
+            android:background="@drawable/refresh"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        >
+        <!--当天天气 -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/current_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18"
+                android:textSize="@dimen/temporature_big"/>
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="湿度风力"
+                android:textSize="@dimen/weather_middle"/>
+            <TextView
+                android:id="@+id/last_updated_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发布时间"
+                android:textSize="@dimen/weather_middle"/>
+
+        </LinearLayout>
+        <!--当天天气 END -->
+
+        <!-- 底部未来几天 -->
+        <LinearLayout
+            android:id="@+id/bottom_weathers"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
