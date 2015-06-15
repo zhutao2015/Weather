@@ -9,93 +9,70 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Random;
 
 /**
  * Created by zhu on 15-5-30.
  */
 public class WeatherModel {
-    private String city;
-    private int currentDegree;
-    private int minDegree;
-    private int maxDegree;
+    private String currentDegree;
+    private String minDegree;
+    private String maxDegree;
     private String humidity;
-    private String lastUpdatedAt;
     private String wind;
-    private Condition condition;
+    private String icon;
     private String desciption;
 
-    public WeatherModel(String city, int currentDegree, int minDegree, int maxDegree, String humidity, String lastUpdatedAt, String wind, int fromCond, int toCond) {
-        this.city = city;
+    public WeatherModel(String currentDegree, String minDegree, String maxDegree, String humidity, String wind, String icon, String desciption) {
         this.currentDegree = currentDegree;
         this.minDegree = minDegree;
         this.maxDegree = maxDegree;
         this.humidity = humidity;
-        this.lastUpdatedAt = lastUpdatedAt;
         this.wind = wind;
-        condition = new Condition(fromCond, toCond);
+        this.icon = icon;
+        this.desciption = desciption;
     }
 
-    public WeatherModel(String city, int currentDegree, int minDegree, int maxDegree, String humidity, String lastUpdatedAt, String wind, int fromCond) {
-        this.city = city;
+    public WeatherModel(String currentDegree, String humidity, String wind, String icon, String desciption){
         this.currentDegree = currentDegree;
+        this.minDegree = "";
+        this.maxDegree = "";
+        this.humidity = humidity;
+        this.wind = wind;
+        this.icon = icon;
+        this.desciption = desciption;
+    }
+
+    public WeatherModel(String minDegree, String maxDegree, String humidity, String wind, String icon, String desciption){
+        this.currentDegree = "";
         this.minDegree = minDegree;
         this.maxDegree = maxDegree;
         this.humidity = humidity;
-        this.lastUpdatedAt = lastUpdatedAt;
         this.wind = wind;
-        condition = new Condition(fromCond);
+        this.icon = icon;
+        this.desciption = desciption;
     }
 
-    public static WeatherModel dummyWeather(){
-        Random random = new Random();
-        String city = Constant.CITIES[random.nextInt(Constant.CITIES.length)];
-        int minD = random.nextInt(10) + 10;
-        int maxD = random.nextInt(10) + minD;
-        int currentD = (minD + maxD) / 2;
-        int hum = random.nextInt(100);
-        int fCond = random.nextInt(11);
-        int tCond = random.nextInt(11);
-        WeatherModel m;
-        if (fCond == tCond){
-            m = new WeatherModel(city, currentD, minD, maxD, hum + "%", "06:30", "东风2级", fCond);
-        }
-        else {
-            m = new WeatherModel(city, currentD, minD, maxD, hum + "%", "06:30", "东风2级", fCond, tCond);
-        }
-
-        return m;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public int getCurrentDegree() {
+    public String getCurrentDegree() {
         return currentDegree;
     }
 
-    public void setCurrentDegree(int currentDegree) {
+    public void setCurrentDegree(String currentDegree) {
         this.currentDegree = currentDegree;
     }
 
-    public int getMinDegree() {
+    public String getMinDegree() {
         return minDegree;
     }
 
-    public void setMinDegree(int minDegree) {
+    public void setMinDegree(String minDegree) {
         this.minDegree = minDegree;
     }
 
-    public int getMaxDegree() {
+    public String getMaxDegree() {
         return maxDegree;
     }
 
-    public void setMaxDegree(int maxDegree) {
+    public void setMaxDegree(String maxDegree) {
         this.maxDegree = maxDegree;
     }
 
@@ -107,18 +84,6 @@ public class WeatherModel {
         this.humidity = humidity;
     }
 
-    public String getLastUpdatedAt() {
-        return lastUpdatedAt;
-    }
-
-    public void setLastUpdatedAt(String lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
-    }
-
-    public String getDesc() {
-        return condition.getFullDesc();
-    }
-
     public String getWind() {
         return wind;
     }
@@ -127,46 +92,16 @@ public class WeatherModel {
         this.wind = wind;
     }
 
-    public int getIcon(){
-        return condition.getFromIcon();
+    public String getIcon() {
+        return icon;
     }
 
-    public String getTempRange() {
-        return minDegree + " - " + getMaxDegree() + "C";
+    public String getIconResource(){
+        return "w" + icon;
     }
 
-    public String getHumidityAndWind() {
-        return "湿度: "+getHumidity()+ " " + getWind();
-
-    }
-
-    public static void refresh(WeatherModel[] weatherModels) throws IOException, JSONException {
-        String url = "http://api.openweathermap.org/data/2.5/forecast/daily?q=xian,cn&mode=json&units=metric&cnt=3&APPID=52c247c918bb9af33d30382bb4bfbfd2&lang=zh_cn";
-        URL theurl = new URL(null, url);
-        HttpURLConnection conn = (HttpURLConnection) theurl.openConnection();
-        conn.setConnectTimeout(3000);
-        conn.setRequestMethod("GET");
-        int code = conn.getResponseCode();
-        if (code == 200){
-            InputStream cont = conn.getInputStream();
-            String encoding = conn.getContentEncoding();
-            encoding = encoding == null ? "UTF-8" : encoding;
-            String ret = IOUtils.toString(cont, encoding);
-            JSONObject object = new JSONObject(ret);
-            JSONArray weathers = object.getJSONArray("list");
-            for(int i=0; i<weathers.length(); i++){
-                JSONObject w = (JSONObject)weathers.get(i);
-                weatherModels[i].setHumidity(w.getInt("humidity") + "%");
-                JSONObject temp = (JSONObject) w.get("temp");
-                weatherModels[i].setMinDegree((int) temp.getDouble("min"));
-                weatherModels[i].setMaxDegree((int) temp.getDouble("max"));
-//                weatherModels[i].setCurrentDegree((int)temp.getDouble("min"));
-                weatherModels[i].setWind((int) w.getDouble("speed") + "级");
-                JSONObject _weather = (JSONObject) w.getJSONObject("weather");
-                weatherModels[i].setDesciption(_weather.getString("description"));
-            }
-        }
-
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getDesciption() {
@@ -175,5 +110,9 @@ public class WeatherModel {
 
     public void setDesciption(String desciption) {
         this.desciption = desciption;
+    }
+
+    public String getFullTemp(){
+        return minDegree + "-" + maxDegree + "C";
     }
 }

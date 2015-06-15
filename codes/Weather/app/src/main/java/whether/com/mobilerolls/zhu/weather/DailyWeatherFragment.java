@@ -24,14 +24,16 @@ public class DailyWeatherFragment extends Fragment {
     private TextView mDailyDesc;
     private TextView mDailyTemp;
     private String mTitle;
+    private View rootView;
+    private int index;
 
     public DailyWeatherFragment() {
         // Required empty public constructor
     }
 
-    public void setWeatherModel(WeatherModel weatherModel, String title){
+    public void setWeatherModel(WeatherModel weatherModel, int index){
         this.mWeatherModel = weatherModel;
-        mTitle = title;
+        this.index = index;
     }
 
 
@@ -42,25 +44,30 @@ public class DailyWeatherFragment extends Fragment {
 
         Log.d(TAG, "onCreateView");
 
-        if (mWeatherModel == null){
-            Log.d(TAG, "reGenerate the weather");
-            mWeatherModel = WeatherModel.dummyWeather();
-        }
-
-        View rootView = inflater.inflate(R.layout.fragment_daily_weather, container, false);
+//        if (mWeatherModel == null){
+//            Log.d(TAG, "reGenerate the weather");
+//            mWeatherModel = WeatherModel.dummyWeather();
+//        }
+//
+        rootView = inflater.inflate(R.layout.fragment_daily_weather, container, false);
         mDailyTitle = (TextView) rootView.findViewById(R.id.daily_title);
-        mDailyTitle.setText(mTitle);
 
         mDailyIcon = (ImageView) rootView.findViewById(R.id.daily_icon);
-        mDailyIcon.setImageResource(mWeatherModel.getIcon());
 
         mDailyDesc = (TextView) rootView.findViewById(R.id.daily_desc);
-        mDailyDesc.setText(mWeatherModel.getDesc());
 
         mDailyTemp = (TextView) rootView.findViewById(R.id.daily_temp);
-        mDailyTemp.setText(mWeatherModel.getTempRange());
 
         return rootView;
+    }
+
+    public void updateUI(){
+        if (rootView!= null && this.mWeatherModel != null){
+            mDailyTitle.setText(Helper.getCapture(index));
+            mDailyDesc.setText(mWeatherModel.getDesciption());
+            mDailyIcon.setImageResource(Helper.getDrawableID(getActivity(), mWeatherModel.getIconResource()));
+            mDailyTemp.setText(mWeatherModel.getFullTemp());
+        }
     }
 
 

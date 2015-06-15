@@ -67,16 +67,22 @@
                 android:text="18"
                 android:textSize="@dimen/temporature_big"/>
             <TextView
-                android:id="@+id/humidity"
+                android:id="@+id/current_humidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="湿度风力"
                 android:textSize="@dimen/weather_middle"/>
-            <TextView
-                android:id="@+id/last_updated_at"
+            <ImageView
+                android:id="@+id/current_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发布时间"
+                android:src="@drawable/w01d"
+                />
+            <TextView
+                android:id="@+id/current_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cloud"
                 android:textSize="@dimen/weather_middle"/>
 
         </LinearLayout>
